@@ -6,7 +6,7 @@ class ClaimedOrders extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      orders: props.claimedOrders
+      orders: props.orders
     }
   }
 
