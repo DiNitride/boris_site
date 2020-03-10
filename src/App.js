@@ -25,6 +25,7 @@ class App extends React.Component {
   }
   
   async refresh() {
+    // TODO: Use Promises.all for this
     console.log(REACT_APP_BORIS_API_ENDPOINT + "/orders/open")
 
     const respOpen = await fetch(
@@ -59,6 +60,45 @@ class App extends React.Component {
     await this.refresh()
   }
 
+  async handleClaim(orderId) {
+    const respClaim = await fetch(REACT_APP_BORIS_API_ENDPOINT + "/orders/claim/" + orderId,
+    {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': REACT_APP_AUTH
+      })
+    })
+    const jsonClaim = await respClaim.json()
+    console.log(jsonClaim)
+    await this.refresh()
+  }
+
+  async handleUnclaim(orderId) {
+    const respUnclaim = await fetch(REACT_APP_BORIS_API_ENDPOINT + "/orders/unclaim/" + orderId,
+    {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': REACT_APP_AUTH
+      })
+    })
+    const jsonUnclaim = await respUnclaim.json()
+    console.log(jsonUnclaim)
+    console.log(this)
+    await this.refresh()
+  }
+
+  async handleComplete(orderId) {
+    const respComplete = await fetch(REACT_APP_BORIS_API_ENDPOINT + "/orders/complete/" + orderId,
+    {
+      method: 'POST',
+      headers: new Headers({
+        'Authorization': REACT_APP_AUTH
+      })
+    })
+    const jsonComplete = await respComplete.json()
+    await this.refresh()
+  }
+
   render() {
 
     return (
@@ -66,8 +106,8 @@ class App extends React.Component {
         <header>
           <h1>Boris Orders</h1>
         </header>
-        <OpenOrders orders={this.state.openOrders}></OpenOrders>
-        <ClaimedOrders orders={this.state.claimedOrders}></ClaimedOrders>
+        <OpenOrders handleClaim={(orderId) => this.handleClaim(orderId)} orders={this.state.openOrders}></OpenOrders>
+        <ClaimedOrders handleUnclaim={(orderId) => this.handleUnclaim(orderId)} handleComplete={(orderId) => this.handleComplete(orderId)} orders={this.state.claimedOrders}></ClaimedOrders>
       </Main>
     )
 

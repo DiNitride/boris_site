@@ -40,7 +40,7 @@ class Order extends React.Component {
         ${this.props.order.price} - {this.props.order.itemName}
         </OrderDetails>
         {unclaimButton}
-        <ActionButton onClick={this.props.handleComplete}>{this.props.actionText}</ActionButton>
+        <ActionButton onClick={this.props.handleAction}>{this.props.actionText}</ActionButton>
         
       </Orderbox>
     )
